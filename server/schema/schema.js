@@ -29,7 +29,7 @@ const TaskType = new GraphQLObjectType({
             category: {
                 type: CategoryType,
                 resolve(parent, args){
-                    return CATEGORIES.find(cat => cat.id === parent.id);
+                    return CATEGORIES.find(cat => cat.id === parent.categoryId);
                 }
             }
         }
@@ -63,11 +63,23 @@ const RootQuery = new GraphQLObjectType({
                 return TASKS.find( task => task.id === args.id);
             }
         },
+        tasks: {
+            type: new GraphQLList(TaskType),
+            resolve(parent, args){
+                return TASKS;
+            }
+        },
         category: {
             type: CategoryType,
             args: {id: {type: GraphQLID}},
             resolve(parent, args){
                 return CATEGORIES.find(category => category.id === args.id);
+            }
+        },
+        categories: {
+            type: new GraphQLList(CategoryType),
+            resolve(parent, args) {
+                return CATEGORIES;
             }
         }
     }
