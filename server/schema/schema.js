@@ -7,7 +7,8 @@ const {
     GraphQLString,
     GraphQLSchema,
     GraphQLID,
-    GraphQLList
+    GraphQLList,
+    GraphQLNonNull
  } = graphql;
 
 
@@ -83,9 +84,9 @@ const Mutation = new GraphQLObjectType({
         addTask: {
             type: TaskType,
             args: {
-                name: { type: GraphQLString },
-                description: {type: GraphQLString },
-                categoryId: {type: GraphQLID }
+                name: { type: new GraphQLNonNull(GraphQLString) },
+                description: {type: new GraphQLNonNull(GraphQLString) },
+                categoryId: {type: new GraphQLNonNull(GraphQLID) }
             },
             resolve(parent, args) {
                 const task = new TaskModel({
@@ -99,8 +100,8 @@ const Mutation = new GraphQLObjectType({
         addCategory: {
             type: CategoryType,
             args: {
-                title: { type: GraphQLString },
-                details: {type: GraphQLString }
+                title: { type: new GraphQLNonNull(GraphQLString) },
+                details: {type: new GraphQLNonNull(GraphQLString) }
             },
             resolve(parent, args) {
                 const category = new CategoryModel({
