@@ -1,28 +1,40 @@
-import React from 'react';
+import React from "react";
 import { graphql } from "react-apollo";
-import { getTasksQuery } from '../queries/queries';
+import { getTasksQuery } from "../queries/queries";
+
+//components
+import TaskDetails from "./TaskDetails";
 
 class TaskList extends React.Component {
-  
-  render(){
+  constructor(props) {
+    super(props);
+    this.state = {
+      selected: null
+    };
+  }
+
+  render() {
     return (
       <div>
-        <ul id="task-list">
-            {this.getTasksListItems()}
-        </ul>
+        <ul id="task-list">{this.getTasksListItems()}</ul>
+        <TaskDetails taskId={this.state.selected}/>
       </div>
     );
   }
 
-
-  getTasksListItems(){
+  getTasksListItems() {
     const fetchedData = this.props.data;
-    if(fetchedData.loading){
+    if (fetchedData.loading) {
       return <div>Loading Tasks...</div>;
     } else {
-      if(fetchedData.tasks){
+      if (fetchedData.tasks) {
         const tasks = fetchedData.tasks;
-        return tasks.map(task => <li key={task.id}>{`name: ${task.name} description: ${task.description}`}</li>);
+        return tasks.map(task => (
+          <li
+            key={task.id}
+            onClick={e => this.setState({ selected: task.id })}
+          >{`name: ${task.name} description: ${task.description}`}</li>
+        ));
       }
     }
   }
