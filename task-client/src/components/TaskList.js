@@ -33,7 +33,7 @@ class TaskList extends React.Component {
           <li
             key={task.id}
             onClick={e => this.setState({ selected: task.id })}
-          >{`name: ${task.name} description: ${task.description}`}</li>
+          >{task.name}</li>
         ));
       }
     }
